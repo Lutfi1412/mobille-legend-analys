@@ -8,7 +8,6 @@ import (
 )
 
 func Handler(w http.ResponseWriter, r *http.Request) {
-	// Buat server G4Vercel
 	mux := http.NewServeMux()
 	mux.HandleFunc("/op", handler.OpHandler)
 	mux.HandleFunc("/meta", handler.MetaHandler)

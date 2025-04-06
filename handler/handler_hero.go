@@ -76,9 +76,9 @@ func fetchHeroes() ([]model.Hero, error) {
 		heroes = append(heroes, model.Hero{
 			Name:     h.MainHero.Data.Name,
 			ID:       h.MainHeroID,
-			WinRate:  h.MainHeroWinRate * 100,  // ubah ke persen
-			PickRate: h.MainHeroPickRate * 100, // ubah ke persen
-			BanRate:  h.MainHeroBanRate * 100,  // ubah ke persen
+			WinRate:  h.MainHeroWinRate * 100,
+			PickRate: h.MainHeroPickRate * 100,
+			BanRate:  h.MainHeroBanRate * 100,
 		})
 	}
 
@@ -94,7 +94,7 @@ func OpHandler(w http.ResponseWriter, r *http.Request) {
 
 	var filtered []model.HeroResponse
 	for _, h := range heroes {
-		if h.BanRate > 20 && h.WinRate > 52 { // contoh filter OP
+		if h.BanRate > 20 && h.WinRate > 52 {
 			filtered = append(filtered, model.HeroResponse{
 				Name:     h.Name,
 				ID:       h.ID,
@@ -105,12 +105,10 @@ func OpHandler(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	// Urutkan berdasarkan BanRate terbesar
 	sort.SliceStable(filtered, func(i, j int) bool {
 		return filtered[i].BanRate > filtered[j].BanRate
 	})
 
-	// Bungkus ke dalam response struct
 	response := map[string]interface{}{
 		"data": filtered,
 	}
@@ -127,7 +125,7 @@ func MetaHandler(w http.ResponseWriter, r *http.Request) {
 
 	var filtered []model.HeroResponse
 	for _, h := range heroes {
-		if h.BanRate > 1.5 && h.WinRate > 51 { // contoh filter OP
+		if h.PickRate > 1.5 && h.WinRate > 51 {
 			filtered = append(filtered, model.HeroResponse{
 				Name:     h.Name,
 				ID:       h.ID,
@@ -156,7 +154,7 @@ func UnderHandler(w http.ResponseWriter, r *http.Request) {
 
 	var filtered []model.HeroResponse
 	for _, h := range heroes {
-		if h.BanRate < 0.75 && h.WinRate > 53 && h.PickRate < 0.75 { // contoh filter OP
+		if h.BanRate < 0.75 && h.WinRate > 53 && h.PickRate < 0.75 {
 			filtered = append(filtered, model.HeroResponse{
 				Name:     h.Name,
 				ID:       h.ID,
